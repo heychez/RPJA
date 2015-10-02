@@ -1,0 +1,30 @@
+<ion-view view-title="Comentarios">
+  <ion-content class="padding">
+    <div class="list">
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Deja un comentario</span>
+        <textarea type="text" placeholder="Deja un comentario..." ng-model="comentario" ng-minlength="1"></textarea>
+      </label>
+      <div style="text-align:right">
+        <button ui-sref="app.vehiculo-comentarios" ng-disabled="!comentario" class="button button-clear button-balanced">Aceptar</button>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">
+        Comentarios
+      </div>
+      <div class="item">
+        Buen servicio del vehiculo!
+      </div>
+      <div class="item">
+        Vehiculo en mal estado.
+      </div>
+      <div class="item">
+        Excelente servicio!
+      </div>
+      <div class="item">
+        Conductor imprudente!!!
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

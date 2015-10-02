@@ -1,0 +1,17 @@
+<ion-view view-title="Denunciar">
+  <ion-content class="padding">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Titulo" ng-model="titulo" ng-minlength="1">
+      </label>
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Descripcion</span>
+        <textarea type="text" placeholder="Descripcion" ng-model="descripcion" ng-minlength="1"></textarea>
+      </label>
+      <label class="item item-input">
+        <a class="button icon-left ion-images button-clear button-dark"> Agregar archivos</a>
+      </label>
+      <button ui-sref="app.vehiculo-denuncia" ng-disabled="!titulo || !descripcion" class="button button-block button-balanced">Enviar denuncia</button>
+    </div>
+  </ion-content>
+</ion-view>
