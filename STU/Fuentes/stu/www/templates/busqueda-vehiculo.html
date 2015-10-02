@@ -1,0 +1,18 @@
+<ion-view view-title="Buscar vehiculo">
+  <ion-content class="padding">
+    <div class="list">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="search" ng-model="placa" placeholder="Numero de placa" ng-minlength="6">
+        </label>
+        <a class="button button-icon icon ion-camera"></a>
+<!--        <button class="button button-smallx button-clear"><i class="icon ion-camera"></i></button>-->
+      </div>
+<!--      <div class="padding">-->
+        <button ui-sref="app.vehiculo" ng-disabled="!placa" class="button button-block button-balanced">Buscar</button>
+<!--      </div>-->
+    </div>
+    
+  </ion-content>
+</ion-view>
