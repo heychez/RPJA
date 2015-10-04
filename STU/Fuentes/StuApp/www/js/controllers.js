@@ -1,6 +1,16 @@
 angular.module('stu.controllers', [])
 
-.controller('HomeCtrl', function($scope) {})
+.controller('HomeCtrl', function($scope, $cordovaOauth) {
+  $scope.loginFb = function() {
+    console.log("loginFb()");
+    $cordovaOauth.facebook("1669858289904059", ["email"]).then(function(result) {
+        alert(result.access_token);
+    }, function(error) {
+        alert(error);
+    });
+  }
+})
+
 .controller('BusquedaVehiculoCtrl', function($scope) {})
 .controller('TopBusquedasCtrl', function($scope) {})
 .controller('VehiculoCtrl', function($scope) {})
