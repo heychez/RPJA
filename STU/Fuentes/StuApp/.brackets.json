@@ -1,6 +1,7 @@
 {
     "jscodehints.detectedExclusions": [
         "D:/development/workspace/projects/RPJA/STU/Fuentes/StuApp/www/lib/ionic/js/angular/angular-animate.js",
-        "D:/development/workspace/projects/RPJA/STU/Fuentes/StuApp/gulpfile.js"
+        "D:/development/workspace/projects/RPJA/STU/Fuentes/StuApp/gulpfile.js",
+        "D:/development/workspace/projects/RPJA/STU/Fuentes/StuApp/www/js/controllers.js"
     ]
 }

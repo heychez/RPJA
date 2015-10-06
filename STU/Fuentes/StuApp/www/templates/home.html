@@ -1,8 +1,13 @@
 <ion-view view-title="Sistema de Transporte Urbano">
   <ion-content class="padding">
     <button ui-sref="busqueda-vehiculo" class="button button-block button-balanced">Buscar vehiculo</button>
-    <button ui-sref="top-busquedas" class="button button-block button-balanced">Top busquedas</button>
-    
-    <button class="button button-block button-positive" ng-click="loginFb()">Facebook</button>
+    <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="loginFb()" ng-hide="fbButtonIsHidden">Facebook</button>
+    <div class="list" ng-hide="usuarioDataIsHidden">
+      <a class="item item-avatar" href="#">
+        <img src="{{usuario.imagen}}">
+        <h2>{{usuario.nombre}}</h2>
+        <p>{{usuario.email}}</p>
+      </a>
+    </div>
   </ion-content>
 </ion-view>
