@@ -1,12 +1,37 @@
-angular.module('stu.controllers', [])
+angular.module('stuControllers', [])
 
-.controller('HomeCtrl', function($scope, $cordovaOauth) {
-  $scope.loginFb = function() {
-    console.log("loginFb()");
-    $cordovaOauth.facebook("1669858289904059", ["email"]).then(function(result) {
-        alert(result.access_token);
+.controller('HomeCtrl', function($scope, $cordovaOauth, $http, Usuario) {
+  $scope.usuario = {};
+  $scope.fbButtonIsHidden = false;
+  $scope.usuarioDataIsHidden = true;
+  
+  function setUsuarioData(){
+    $scope.fbButtonIsHidden = true;
+    
+    $http.get("https://graph.facebook.com/v2.4/me", {params: {access_token: Usuario.getAccessToken(), fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
+      $scope.usuario.nombre = result.data.name;
+      $scope.usuario.imagen = result.data.picture.data.url;
+      $scope.usuario.email = result.data.email;
+      $scope.usuario.sexo = result.data.gender;
+      
+      Usuario.data = $scope.usuario;
+      
+      $scope.usuarioDataIsHidden = false;
     }, function(error) {
         alert(error);
+    });
+  }
+  
+  if (Usuario.isLogged()){
+    setUsuarioData();
+  }
+  
+  $scope.loginFb = function() {
+    $cordovaOauth.facebook("1669858289904059", ["public_profile", "email"]).then(function(result) {
+      Usuario.startSession(result.access_token);
+      setUsuarioData();
+    }, function(error) {
+      alert(error);
     });
   }
 })

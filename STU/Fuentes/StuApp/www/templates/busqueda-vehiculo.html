@@ -1,6 +1,9 @@
 <ion-view view-title="Buscar vehiculo">
   <ion-content class="padding">
     <div class="list">
+      <div class="padding-bottom">
+        <button ui-sref="top-busquedas" class="button button-block button-balanced">Top busquedas</button>
+      </div>
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
           <i class="icon ion-search placeholder-icon"></i>
@@ -9,10 +12,7 @@
         <a class="button button-icon icon ion-camera"></a>
 <!--        <button class="button button-smallx button-clear"><i class="icon ion-camera"></i></button>-->
       </div>
-<!--      <div class="padding">-->
         <button ui-sref="vehiculo" ng-disabled="!placa" class="button button-block button-balanced">Buscar</button>
-<!--      </div>-->
     </div>
-    
   </ion-content>
 </ion-view>
