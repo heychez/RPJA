@@ -10,8 +10,17 @@ service.buscarVehiculoPorPlaca = function  (placa,callback) {
 		placa:placa
 	}})
 	.then(function  (vehiculo) {
-		if(vehiculo)
-			return callback(null,vehiculo);
+		if(vehiculo){
+			vehiculo.increment('nroConsultas', {by: 1})
+              .then(function  (vehiculoNew) {
+              	return callback(null,vehiculoNew);
+              })
+              .catch(function  (error) {
+                error        = new Error("Error en updatear nroConsultas");
+                error.status = 500;
+                throw error;
+            });
+		}
 		else{
 			var error = new Error();
 			error.message = "Vehiculo no encontrado";
@@ -36,6 +45,7 @@ service.obtenerComentariosVehiculo = function  (vehiculoInstance,callback) {
 			return callback(null,comentarios);
 		})
 		.catch(function  (error) {
+			console.log(error);
 			error = new Error();
 			error.message = "Error en la conexion";
 			error.status  = 500;
@@ -69,6 +79,7 @@ service.addComentarioVehiculo = function  (vehiculoInstance,comentarioRequest,ca
 			return callback(null,comentario);
 		})
 		.catch(function  (error) {
+			console.log(error);
 			error         = new Error();
 			error.message = "Error en la conexion";
 			error.status  = 500;
@@ -86,7 +97,7 @@ service.obtenerTopBusqueda = function  (callback) {
 			error         = new Error();
 			error.status  = 500;
 			error.message = "Error en la conexion";
-			callback(null,error);
+			return callback(error);
 	});
 }
 
