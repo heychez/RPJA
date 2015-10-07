@@ -2,7 +2,7 @@ module.exports = function(sequelize, DataTypes) {
   var Usuario = sequelize.define('Usuario', 
     {
       idUsuario:{
-        type : DataTypes.INTEGER,
+        type : DataTypes.STRING,
         primaryKey : true
       },
       nombreCompleto: {
