@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
       clase : {
         type: DataTypes.STRING
       },
-      añoFabricacion: {
+      anioFabricacion: {
         type : DataTypes.INTEGER
       },
       modelo: {
@@ -80,7 +80,7 @@ module.exports = function(sequelize, DataTypes) {
       paranoid:true,
       tableName : "vehiculo",
       hooks:{
-        afterFind : function  (vehiculoInstance) {
+        afterFindOne : function  (vehiculoInstance) {
           if(vehiculoInstance){
             return vehiculoInstance.increment('nroConsultas', {by: 1})
               .then(function  (vehiculowat) {
@@ -98,7 +98,21 @@ module.exports = function(sequelize, DataTypes) {
           Vehiculo.hasMany(models.Comentario,{foreignKey:"placa"});
           Vehiculo.hasMany(models.Denuncia,{foreignKey:"placa"});
         }
+      },
+      instanceMethods:{
+        obtenerComentariosWithUsuarios : function  () {
+          var self = this;
+          return sequelize.models.Comentario.findAll({
+            where:{placa:self.placa},
+            include:[
+              {
+                model:sequelize.models.Usuario
+              }
+            ]
+          });
+        }
       }
-    });
+    }
+  );
   return Vehiculo;
 };

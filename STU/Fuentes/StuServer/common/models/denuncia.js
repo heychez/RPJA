@@ -7,10 +7,13 @@ module.exports = function(sequelize, DataTypes) {
         primaryKey : true
 
       },
-      texto : {
+      titulo : {
         type : DataTypes.STRING  
       },
-      pathFile : {
+      descripcion : {
+        type : DataTypes.STRING  
+      },
+      imagen : {
         type : DataTypes.STRING  
       }
     }, 
@@ -21,6 +24,10 @@ module.exports = function(sequelize, DataTypes) {
       paranoid:true,
       tableName : "denuncia",
       classMethods: {
+        associate : function  (models) {
+          Denuncia.belongsTo(models.Usuario,{foreignKey:"idUsuario"});
+        }
+        
       }
     }
   );

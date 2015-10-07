@@ -14,13 +14,16 @@
 - node  app / npm start
 ## Api
 
-- GET /:placa ->  Obtiene un vehiculo , tomando como parametro la placa
-- GET /:placa/comentarios -> Obtiene los comentarios del vehiculo
-- POST /:placa/comentarios -> Añade un nuevo comentario {texto:STRING}
+- GET vehiculo/:placa ->  Obtiene un vehiculo , tomando como parametro la placa
+- GET vehiculo/:placa/comentarios -> Obtiene los comentarios del vehiculo
+- GET vehiculo/top - > Obtiene el top de los vehiculos mas consultados
+- GET vehiculo/:placa/comentarios -> Obtiene todos los comentarios de un vehiculo.
+- POST vehiculo/:placa/comentarios -> Añade un nuevo comentario {texto:STRING}
+
 
 
 TODO:
-- data import script.
-- GET /:placa/denuncias
+- data import script. (DONE)
+- GET /:placa/denuncias (DONE)
 - POST /:placa/denuncias
 
