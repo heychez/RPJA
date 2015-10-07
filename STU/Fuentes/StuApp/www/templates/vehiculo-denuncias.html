@@ -1,26 +1,14 @@
 <ion-view view-title="Denuncias">
   <ion-content class="padding">
-    <div class="list card">
+    <div class="list card" ng-repeat="denuncia in denuncias">
       <div class="item">
-        <h2>Choque</h2>
-        <p>28/09/11 - Av. Lima 456</p>
+        <h2>{{denuncia.titulo}}</h2>
+        <p>{{denuncia.fechaCreacion}}</p>
       </div>
       <div class="item item-body">
-        <img class="full-image" src="img/denuncia1.jpg">
+        <img class="full-image" src="{{denuncia.imagen}}">
         <p>
-          El vehiculo fue culpable de un choque espantoso.
-        </p>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item">
-        <h2>Terrible accidente</h2>
-        <p>28/09/11 - Av. Lima 456</p>
-      </div>
-      <div class="item item-body">
-        <img class="full-image" src="img/denuncia2.jpg">
-        <p>
-          El conductor de este vehiculo fue el que ocacionó este terrible accdiente vehicular.
+          {{denuncia.texto}}
         </p>
       </div>
     </div>

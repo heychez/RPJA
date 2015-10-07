@@ -3,39 +3,119 @@
     <div class="list">
       <div class="item">
         <h2><b>Numero de placa</b></h2>
-        <p>WAT-982</p>
+        <p>{{vehiculo.placa}}</p>
       </div>
       <br>
       <div class="item">
         <h2><b>Modalidad Servicio</b></h2>
-        <p>Taxi Estación</p>
+        <p>{{vehiculo.modalidadServicio}}</p>
       </div>
       <br>
       <div class="item">
         <h2><b>Clase</b></h2>
-        <p>Automovil</p>
+        <p>{{vehiculo.clase}}</p>
       </div>
       <br>
       <div class="item">
         <h2><b>Año de fabricación</b></h2>
-        <p>2000</p>
+        <p>{{vehiculo.anioFabricacion}}</p>
       </div>
       <br>
       <div class="item">
         <h2><b>Marca</b></h2>
-        <p>Chevrolet</p>
+        <p>{{vehiculo.marca}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Serie</b></h2>
+        <p>{{vehiculo.serie}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Serie del motor</b></h2>
+        <p>{{vehiculo.serieMotor}}</p>
       </div>
       <br>
       <div class="item">
         <h2><b>Tipo de commbustible</b></h2>
-        <p>Gasolina</p>
+        <p>{{vehiculo.tipoCombustible}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Peso seco</b></h2>
+        <p>{{vehiculo.pesoSeco}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Peso bruto</b></h2>
+        <p>{{vehiculo.pesoBruto}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Longitud</b></h2>
+        <p>{{vehiculo.longitud}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Altura</b></h2>
+        <p>{{vehiculo.altura}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Ancho</b></h2>
+        <p>{{vehiculo.ancho}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Carga util</b></h2>
+        <p>{{vehiculo.cargaUtil}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Capacidad de pasajeros</b></h2>
+        <p>{{vehiculo.capacidadPasajero}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Capacidad de pasajeros</b></h2>
+        <p>{{vehiculo.capacidadPasajero}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Numero de asientos</b></h2>
+        <p>{{vehiculo.numeroAsientos}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Numero de ruedas</b></h2>
+        <p>{{vehiculo.numeroRueda}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Numero de ejes</b></h2>
+        <p>{{vehiculo.numeroEje}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Numero de puertas</b></h2>
+        <p>{{vehiculo.numeroPuerta}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Fecha de inscripción</b></h2>
+        <p>{{vehiculo.fechaInscripcion}}</p>
+      </div>
+      <br>
+      <div class="item">
+        <h2><b>Tipo de documento</b></h2>
+        <p>{{vehiculo.tipoDocumento}}</p>
       </div>
       <br>
     </div>
   </ion-content>
     <div class="bar bar-footer bar-balanced">
-      <button class="button button-clear" ui-sref="vehiculo-comentarios">Comentarios</button>
-      <button class="button button-clear" ui-sref="vehiculo-denuncias">Denuncias</button>
+      <button class="button button-clear" ui-sref="vehiculo-comentarios" ng-click="buscarComentarios()">Comentarios</button>
+      <button class="button button-clear" ui-sref="vehiculo-denuncias" ng-click="buscarDenuncias()">Denuncias</button>
 <!--      <button class="button button-clear pull-right">Right</button>-->
     </div>
 <!--

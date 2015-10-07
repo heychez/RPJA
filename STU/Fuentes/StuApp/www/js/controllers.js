@@ -36,11 +36,36 @@ angular.module('stuControllers', [])
   }
 })
 
-.controller('BusquedaVehiculoCtrl', function($scope) {})
+.controller('BusquedaVehiculoCtrl', function($scope, Vehiculo) {
+  $scope.buscarVehiculo = function (){
+    var placa = $scope.placa;
+    Vehiculo.getVehiculo(placa);
+  };
+})
+
+.controller('VehiculoCtrl', function($scope, $stateParams, Vehiculo) {
+  $scope.vehiculo = Vehiculo.data;
+  
+  console.log($stateParams);
+  
+  $scope.buscarComentarios = function (){
+    Vehiculo.getVehiculoComentarios();
+  };
+  
+  $scope.buscarDenuncias = function (){
+    Vehiculo.getVehiculoDenuncias();
+  };
+})
+
+.controller('VehiculoComentariosCtrl', function($scope, Vehiculo) {
+  $scope.comentarios = Vehiculo.data.comentarios;
+})
+
+.controller('VehiculoDenunciasCtrl', function($scope, Vehiculo) {
+  $scope.denuncias = Vehiculo.data.denuncias;
+})
+
 .controller('TopBusquedasCtrl', function($scope) {})
-.controller('VehiculoCtrl', function($scope) {})
-.controller('VehiculoComentariosCtrl', function($scope) {})
-.controller('VehiculoDenunciasCtrl', function($scope) {})
 .controller('VehiculoDenunciaCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
