@@ -4,32 +4,23 @@ angular.module('stuControllers', [])
   $scope.usuario = {};
   $scope.fbButtonIsHidden = false;
   $scope.usuarioDataIsHidden = true;
-  
-  function setUsuarioData(){
-    $scope.fbButtonIsHidden = true;
     
-    $http.get("https://graph.facebook.com/v2.4/me", {params: {access_token: Usuario.getAccessToken(), fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
-      $scope.usuario.nombre = result.data.name;
-      $scope.usuario.imagen = result.data.picture.data.url;
-      $scope.usuario.email = result.data.email;
-      $scope.usuario.sexo = result.data.gender;
-      
-      Usuario.data = $scope.usuario;
-      
-      $scope.usuarioDataIsHidden = false;
-    }, function(error) {
-        alert(error);
-    });
-  }
-  
   if (Usuario.isLogged()){
-    setUsuarioData();
+      $scope.fbButtonIsHidden = true;
+      Usuario.getUsuario(function(resp){
+        $scope.usuario = resp;
+        $scope.usuarioDataIsHidden = false;
+      });
   }
   
   $scope.loginFb = function() {
     $cordovaOauth.facebook("1669858289904059", ["public_profile", "email"]).then(function(result) {
-      Usuario.startSession(result.access_token);
-      setUsuarioData();
+      $scope.fbButtonIsHidden = true;
+      
+      Usuario.login(result.access_token, function (resp){
+        $scope.usuario = resp;
+        $scope.usuarioDataIsHidden = false;
+      });
     }, function(error) {
       alert(error);
     });
@@ -37,35 +28,36 @@ angular.module('stuControllers', [])
 })
 
 .controller('BusquedaVehiculoCtrl', function($scope, Vehiculo) {
-  $scope.buscarVehiculo = function (){
-    var placa = $scope.placa;
-    Vehiculo.getVehiculo(placa);
-  };
 })
 
 .controller('VehiculoCtrl', function($scope, $stateParams, Vehiculo) {
-  $scope.vehiculo = Vehiculo.data;
-  
-  console.log($stateParams);
-  
-  $scope.buscarComentarios = function (){
-    Vehiculo.getVehiculoComentarios();
-  };
-  
-  $scope.buscarDenuncias = function (){
-    Vehiculo.getVehiculoDenuncias();
-  };
+  Vehiculo.getVehiculo($stateParams.placa, function (resp){
+    $scope.vehiculo = resp;
+  });
 })
 
-.controller('VehiculoComentariosCtrl', function($scope, Vehiculo) {
-  $scope.comentarios = Vehiculo.data.comentarios;
+.controller('VehiculoComentariosCtrl', function($scope, $stateParams, Vehiculo) {
+  $scope.placa = $stateParams.placa;
+  
+  Vehiculo.getVehiculoComentarios($stateParams.placa, function (resp){
+    $scope.comentarios = resp;
+  });
+  
+  $scope.comentar = function(placa, texto){
+    Vehiculo.postVehiculoComentario(placa, texto);
+  }
 })
 
-.controller('VehiculoDenunciasCtrl', function($scope, Vehiculo) {
-  $scope.denuncias = Vehiculo.data.denuncias;
+.controller('VehiculoDenunciasCtrl', function($scope, $stateParams, Vehiculo) {
+  $scope.denuncias = Vehiculo.getVehiculoDenuncias($stateParams.placa);
 })
 
-.controller('TopBusquedasCtrl', function($scope) {})
+.controller('TopBusquedasCtrl', function($scope, Vehiculo) {
+  Vehiculo.getTopVehiculosBuscados(function (resp){
+    $scope.vehiculos = resp;
+  });
+})
+
 .controller('VehiculoDenunciaCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {

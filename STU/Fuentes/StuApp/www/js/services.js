@@ -17,57 +17,111 @@ angular.module('stuServices', [])
   }
 })
 
-.factory('Usuario', function ($localStorage){
+.factory('Usuario', function ($localStorage, $http){
   var usuarioService = {
     data: {}
   };
   
-  usuarioService.startSession = function (access_token){
-    $localStorage.set('access_token', access_token);
-  }
-  
-  usuarioService.getAccessToken = function (){
-    return 'CAAXuui4x6bsBAJl5Ewa8chCHtT6ASC8sN7CDa9ZAQjkB7zMe708ke1X4c3OZBa556wOpSMJJ1jIaR2D2yPch1Hq4QAFPE8GDINETpR4ktfIvKgdLB5CbUo4pbSEZBksQdLSGKA3FIZBFvc8pjdqaaIl2pLydAGmZAZBBfwFJ8pI8nmulawTkSxY5phL5PrROuZAYziE7VualAZDZD';
-//    return $localStorage.get('access_token');
-  }
-  
   usuarioService.isLogged = function (){
-    return true;
-//    return $localStorage.get('access_token');
+//    return true;
+    return $localStorage.get('access_token');
+  }
+  
+  usuarioService.getUsuario = function (callback){
+//    var token =  'CAAXuui4x6bsBAJl5Ewa8chCHtT6ASC8sN7CDa9ZAQjkB7zMe708ke1X4c3OZBa556wOpSMJJ1jIaR2D2yPch1Hq4QAFPE8GDINETpR4ktfIvKgdLB5CbUo4pbSEZBksQdLSGKA3FIZBFvc8pjdqaaIl2pLydAGmZAZBBfwFJ8pI8nmulawTkSxY5phL5PrROuZAYziE7VualAZDZD';
+    var token = $localStorage.get('access_token');
+    
+    $http.get("https://graph.facebook.com/v2.4/me", {params: {access_token: token, fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
+      var data = {
+        idUsuario: result.data.id,
+        nombreCompleto: result.data.name,
+        imagen: result.data.picture.data.url,
+        email: result.data.email,
+        genero: result.data.gender,
+      };
+      
+      usuarioService.data = data;
+      
+      callback(data);
+    }, function(error) {
+        alert(error);
+    });
+  }
+  
+  usuarioService.login = function (token, callback){
+    $http.get("https://graph.facebook.com/v2.4/me", {params: {access_token: token, fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
+      var data = {
+        idUsuario: result.data.id,
+        nombreCompleto: result.data.name,
+        imagen: result.data.picture.data.url,
+        email: result.data.email,
+        genero: result.data.gender,
+      };
+      
+      usuarioService.data = data;
+      
+      $http.get("https://stuapp.localtunnel.me/usuario/"+data.idUsuario).then(function(getres) {
+      }, function(error) {
+          if (error.status == 500){
+          $http.post("https://stuapp.localtunnel.me/usuario", data, {headers: {'Content-Type': 'application/json'}}).then(function(res) {
+          });
+        }
+      });
+      
+      $localStorage.set('access_token', token);
+      
+      callback(data);
+    });
   }
 
   return usuarioService;
 })
 
-.factory('Vehiculo', function ($http){
-  var vehiculoService = {
-    data: {}
+
+.factory('Vehiculo', function ($http, Usuario){
+  var vehiculoService = {};
+    
+  vehiculoService.getVehiculoComentarios = function (placa, callback){
+    $http.get("https://stuapp.localtunnel.me/vehiculo/"+placa+"/comentarios").then(function(result) {
+      callback(result.data);
+    }, function(error) {
+        alert(error);
+    });
   };
-  
-  vehiculoService.getVehiculo = function (placa){
-//    $http.get("https://ftlkwnvmkj.localtunnel.me/vehiculo/"+placa).then(function(result) {      
-//      vehiculoService.data = result;      
-//    }, function(error) {
-//        alert(error);
-//    });
-    vehiculoService.data={"placa":"69V149","modalidadServicio":"TAXI ESTACION","clase":"STATION WAGON","anioFabricacion":2003,"modelo":"AD VAN","marca":"NISSAN","serie":"VY11258077","serieMotor":"QG13303606","tipoCombustible":"DUAL","pesoSeco":"1177","pesoBruto":"1,68","longitud":"4,3","altura":"1,4","ancho":"1,6","cargaUtil":"503","capacidadPasajero":4,"numeroAsientos":5,"numeroRueda":4,"numeroEje":2,"numeroPuerta":4,"fechaInscripcion":"20/07/2009","tipoDocumento":"DNI","nroConsultas":17,"fechaCreacion":"0000-00-00 00:00:00","fechaModificacion":"2015-10-07T03:43:17.000Z","fechaEliminacion":null};
-  };
-  
-  vehiculoService.getVehiculoComentarios = function (){
-    vehiculoService.data.comentarios = [
-      {nombreCompleto: "Roberto Cuadros Loayza", imagen: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/p50x50/10384687_10152654150698557_3418550756936438253_n.jpg?oh=ccc101a522b14cd3a82aa3eee80c9b20&oe=56A368B5&__gda__=1452382780_187417923030d05d4225c4ffde2a8067", texto: "Conductor amable"},
-      {nombreCompleto: "Roberto Cuadros Loayza", imagen: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/p50x50/10384687_10152654150698557_3418550756936438253_n.jpg?oh=ccc101a522b14cd3a82aa3eee80c9b20&oe=56A368B5&__gda__=1452382780_187417923030d05d4225c4ffde2a8067", texto: "Vehiculo desgastado y viejo"},
-      {nombreCompleto: "Roberto Cuadros Loayza", imagen: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/p50x50/10384687_10152654150698557_3418550756936438253_n.jpg?oh=ccc101a522b14cd3a82aa3eee80c9b20&oe=56A368B5&__gda__=1452382780_187417923030d05d4225c4ffde2a8067", texto: "Se malogro el vehiculo en medio del viaje"},
-      {nombreCompleto: "Roberto Cuadros Loayza", imagen: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xfa1/v/t1.0-1/p50x50/10384687_10152654150698557_3418550756936438253_n.jpg?oh=ccc101a522b14cd3a82aa3eee80c9b20&oe=56A368B5&__gda__=1452382780_187417923030d05d4225c4ffde2a8067", texto: "Tarifa muy comoda"},
-    ];
-  }
   
   vehiculoService.getVehiculoDenuncias = function (){
-    vehiculoService.data.denuncias = [
+    return [
       {titulo: "Choque", fechaCreacion: "28/09/15", imagen: "img/denuncia1.jpg", texto: "El vehiculo fue culpable de un choque espantoso."},
       {titulo: "Terrible accidente", fechaCreacion: "02/10/15", imagen: "img/denuncia2.jpg", texto: "El conductor de este vehiculo fue el que ocacionó este terrible accdiente vehicular."},
     ];
   };
+  
+  vehiculoService.getVehiculo = function (placa, callback){
+    $http.get("https://stuapp.localtunnel.me/vehiculo/"+placa).then(function(result) {      
+      callback(result.data);
+    }, function(error) {
+        alert("Nro de placa no valido!");
+    });
+  };
+  
+  vehiculoService.getTopVehiculosBuscados = function (callback){
+    $http.get("https://stuapp.localtunnel.me/vehiculo/top").then(function(result) {      
+      callback(result.data);
+    }, function(error) {
+        alert(error);
+    });
+  };
+  
+  vehiculoService.postVehiculoComentario = function (placa, texto){
+    var data = {
+      texto: texto,
+      idUsuario: Usuario.data.idUsuario,
+    }
+    console.log(data);
+    $http.post("https://stuapp.localtunnel.me/vehiculo/"+placa+"/comentarios", data, {headers: {'Content-Type': 'application/json'}}).then(function(result) {
+      console.log(result);
+    });
+  }
   
   return vehiculoService;
 })

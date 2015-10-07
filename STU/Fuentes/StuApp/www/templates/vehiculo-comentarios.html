@@ -3,16 +3,16 @@
     <div class="list padding">
       <label class="item item-input item-floating-label">
         <span class="input-label">Deja un comentario</span>
-        <textarea type="text" placeholder="Deja un comentario..." ng-model="comentario" ng-minlength="1"></textarea>
+        <textarea type="text" placeholder="Deja un comentario..." ng-model="texto" ng-minlength="1"></textarea>
       </label>
       <div style="text-align:right">
-        <button ui-sref="vehiculo-comentarios" ng-disabled="!comentario" class="button button-clear button-balanced">Aceptar</button>
+        <a href="#/vehiculos/{{placa}}/comentarios" ng-disabled="!texto" class="button button-clear button-balanced" ng-click="comentar(placa, texto)">Aceptar</a>
       </div>
     </div>
     <div class="list">
       <a class="item item-avatar" href="#" ng-repeat="comentario in comentarios">
-        <img src="{{comentario.imagen}}">
-        <h2>{{comentario.nombreCompleto}}</h2>
+        <img src="{{comentario.Usuario.imagen}}">
+        <h2>{{comentario.Usuario.nombreCompleto}}</h2>
         <p>{{comentario.texto}}</p>
       </a>
     </div>

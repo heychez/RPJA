@@ -8,12 +8,12 @@
         </div>
       </div>
     </div>
-    <button ui-sref="busqueda-vehiculo" class="button button-block button-balanced">Buscar vehiculo</button>
+    <button ui-sref="busqueda-vehiculo" class="button button-block button-balanced" ng-hide="usuarioDataIsHidden">Buscar vehiculo</button>
     <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="loginFb()" ng-hide="fbButtonIsHidden">Facebook</button>
     <div class="list" ng-hide="usuarioDataIsHidden">
       <a class="item item-avatar" href="#">
         <img src="{{usuario.imagen}}">
-        <h2>{{usuario.nombre}}</h2>
+        <h2>{{usuario.nombreCompleto}}</h2>
         <p>{{usuario.email}}</p>
       </a>
     </div>
