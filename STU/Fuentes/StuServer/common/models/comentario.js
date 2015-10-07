@@ -23,6 +23,9 @@ module.exports = function(sequelize, DataTypes) {
       paranoid:true,
       tableName : "comentario",
       classMethods: {
+        associate : function  (models) {
+          Comentario.belongsTo(models.Usuario,{foreignKey:"idUsuario"});
+        }
       }
     }
   );
