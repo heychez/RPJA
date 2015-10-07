@@ -31,22 +31,22 @@ angular.module('stu', ['ionic', 'stuControllers', 'stuServices', 'ngCordova'])
       controller: 'BusquedaVehiculoCtrl'
     })
       .state('vehiculo', {
-        url: '/vehiculos/:vehiculoId',
+        url: '/vehiculos/:placa',
         templateUrl: 'templates/vehiculo.html',
         controller: 'VehiculoCtrl'
       })
         .state('vehiculo-comentarios', {
-          url: '/vehiculos/:vehiculoId/comentarios',
+          url: '/vehiculos/:placa/comentarios',
           templateUrl: 'templates/vehiculo-comentarios.html',
           controller: 'VehiculoComentariosCtrl'
         })
         .state('vehiculo-denuncias', {
-          url: '/vehiculos/:vehiculoId/denuncias',
+          url: '/vehiculos/:placa/denuncias',
           templateUrl: 'templates/vehiculo-denuncias.html',
           controller: 'VehiculoDenunciasCtrl'
         })
         .state('vehiculo-denuncia', {
-          url: '/vehiculos/:vehiculoId/denuncia',
+          url: '/vehiculos/:placa/denuncia',
           templateUrl: 'templates/vehiculo-denuncia.html',
           controller: 'VehiculoDenunciaCtrl'
         })
