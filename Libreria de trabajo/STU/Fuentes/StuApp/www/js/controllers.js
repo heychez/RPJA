@@ -58,7 +58,48 @@ angular.module('stuControllers', [])
   });
 })
 
-.controller('VehiculoDenunciaCtrl', function($scope) {})
+.controller('VehiculoDenunciaCtrl', function($scope) {
+  $scope.tomarFoto = function(){
+    var options = {
+      quality: 50,
+      destinationType: Camera.DestinationType.DATA_URL,
+      sourceType: Camera.PictureSourceType.CAMERA,
+      allowEdit: true,
+      encodingType: Camera.EncodingType.JPEG,
+      targetWidth: 100,
+      targetHeight: 100,
+      popoverOptions: CameraPopoverOptions,
+      saveToPhotoAlbum: false,
+      correctOrientation:true
+    };
+
+    $cordovaCamera.getPicture(options).then(function(imageData) {
+      $scope.imagenUri = "data:image/jpeg;base64," + imageData;
+      alert($scope.imagenUri);
+    }, function(err) {
+      // error
+    });
+  };
+
+  $scope.seleccionarImagen = function(){
+    var options = {
+      destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.CAMERA,
+    };
+
+    $cordovaCamera.getPicture(options).then(function(imageURI) {
+      $scope.imagenUri = imageURI;
+      alert($scope.imagenUri);
+    }, function(err) {
+      // error
+    });
+  }
+
+  $scope.denunciar = function(placa, descripcion, imagenUri){
+    Vehiculo.postVehiculoDenuncia(placa, descripcion, imagenUri);
+  }
+})
+
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called

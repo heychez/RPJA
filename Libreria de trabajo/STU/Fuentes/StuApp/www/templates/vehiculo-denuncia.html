@@ -9,9 +9,13 @@
         <textarea type="text" placeholder="Descripcion" ng-model="descripcion" ng-minlength="1"></textarea>
       </label>
       <label class="item item-input">
-        <a class="button icon-left ion-images button-clear button-dark"> Agregar archivos</a>
+        <a class="button icon-left ion-camera button-clear button-dark" ng-click="tomarFoto()"> Foto</a> 
+        <a class="button icon-left ion-images button-clear button-dark" ng-click="seleccionarimagen()"> Imagen</a>
       </label>
-      <button ui-sref="vehiculo-denuncia" ng-disabled="!titulo || !descripcion" class="button button-block button-balanced">Enviar denuncia</button>
+      <label class="item item-input" ng-show="imagenUri !== undefined">
+        <img  ng-src="{{imagenUri}}" style="text-align: center">
+      </label>
+      <a href="#/vehiculos/{{placa}}/denuncia" ng-disabled="!titulo || !descripcion" class="button button-block button-balanced" ng-click="denunciar(titulo, descripcion, imagenUri)">Enviar denuncia</a>
     </div>
   </ion-content>
 </ion-view>
