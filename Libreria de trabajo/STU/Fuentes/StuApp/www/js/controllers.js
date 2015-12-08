@@ -6,11 +6,12 @@ angular.module('stuControllers', [])
   $scope.usuarioDataIsHidden = true;
     
   if (Usuario.isLogged()){
-      $scope.fbButtonIsHidden = true;
-      Usuario.getUsuario(function(resp){
-        $scope.usuario = resp;
-        $scope.usuarioDataIsHidden = false;
-      });
+    $scope.fbButtonIsHidden = true;
+
+    Usuario.getUsuario(function(resp){
+      $scope.usuario = resp;
+      $scope.usuarioDataIsHidden = false;
+    });
   }
   
   $scope.loginFb = function() {
@@ -22,7 +23,7 @@ angular.module('stuControllers', [])
         $scope.usuarioDataIsHidden = false;
       });
     }, function(error) {
-      alert(error);
+      alert(JSON.stringify(error));
     });
   }
 })
@@ -76,8 +77,8 @@ angular.module('stuControllers', [])
     $cordovaCamera.getPicture(options).then(function(imageData) {
       $scope.imagenUri = "data:image/jpeg;base64," + imageData;
       alert($scope.imagenUri);
-    }, function(err) {
-      // error
+    }, function(error) {
+      alert(JSON.stringify(error));
     });
   };
 
@@ -90,8 +91,8 @@ angular.module('stuControllers', [])
     $cordovaCamera.getPicture(options).then(function(imageURI) {
       $scope.imagenUri = imageURI;
       alert($scope.imagenUri);
-    }, function(err) {
-      // error
+    }, function(error) {
+      alert(JSON.stringify(error));
     });
   }
 

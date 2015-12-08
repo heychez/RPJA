@@ -23,13 +23,13 @@ angular.module('stuServices', [])
   };
   
   usuarioService.isLogged = function (){
-    return true;
-//    return $localStorage.get('access_token');
+//    return true;
+    return $localStorage.get('access_token');
   }
   
   usuarioService.getUsuario = function (callback){
-    var token =  'CAAXuui4x6bsBAJl5Ewa8chCHtT6ASC8sN7CDa9ZAQjkB7zMe708ke1X4c3OZBa556wOpSMJJ1jIaR2D2yPch1Hq4QAFPE8GDINETpR4ktfIvKgdLB5CbUo4pbSEZBksQdLSGKA3FIZBFvc8pjdqaaIl2pLydAGmZAZBBfwFJ8pI8nmulawTkSxY5phL5PrROuZAYziE7VualAZDZD';
-//    var token = $localStorage.get('access_token');
+ //   var token =  'CAAXuui4x6bsBAJl5Ewa8chCHtT6ASC8sN7CDa9ZAQjkB7zMe708ke1X4c3OZBa556wOpSMJJ1jIaR2D2yPch1Hq4QAFPE8GDINETpR4ktfIvKgdLB5CbUo4pbSEZBksQdLSGKA3FIZBFvc8pjdqaaIl2pLydAGmZAZBBfwFJ8pI8nmulawTkSxY5phL5PrROuZAYziE7VualAZDZD';
+    var token = $localStorage.get('access_token');
     
     $http.get("https://graph.facebook.com/v2.4/me", {params: {access_token: token, fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
       var data = {
@@ -39,17 +39,17 @@ angular.module('stuServices', [])
         email: result.data.email,
         genero: result.data.gender,
       };
-      
+
       usuarioService.data = data;
       
       callback(data);
     }, function(error) {
-        alert(error);
+      alert(JSON.stringify(error));
     });
   }
   
   usuarioService.login = function (token, callback){
-    $http.get("https://graph.facebook.com/v2.4/me", {params: {access_token: token, fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
+    $http.get("https://graph.facebook.com/v2.5/me", {params: {access_token: token, fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
       var data = {
         idUsuario: result.data.id,
         nombreCompleto: result.data.name,
@@ -62,7 +62,7 @@ angular.module('stuServices', [])
       
       $http.get("https://stuapp.localtunnel.me/usuario/"+data.idUsuario).then(function(getres) {
       }, function(error) {
-          if (error.status == 500){
+        if (error.status == 500){
           $http.post("https://stuapp.localtunnel.me/usuario", data, {headers: {'Content-Type': 'application/json'}}).then(function(res) {
           });
         }
@@ -71,6 +71,8 @@ angular.module('stuServices', [])
       $localStorage.set('access_token', token);
       
       callback(data);
+    }, function(error) {
+      alert(JSON.stringify(error));
     });
   }
 
@@ -85,7 +87,7 @@ angular.module('stuServices', [])
     $http.get("https://stuapp.localtunnel.me/vehiculo/"+placa+"/comentarios").then(function(result) {
       callback(result.data);
     }, function(error) {
-        alert(error);
+        alert(JSON.stringify(error));
     });
   };
   
@@ -108,7 +110,7 @@ angular.module('stuServices', [])
     $http.get("https://stuapp.localtunnel.me/vehiculo/top").then(function(result) {      
       callback(result.data);
     }, function(error) {
-        alert(error);
+        alert(JSON.stringify(error));
     });
   };
   
