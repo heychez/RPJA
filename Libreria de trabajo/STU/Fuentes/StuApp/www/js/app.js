@@ -38,12 +38,14 @@ angular.module('stu', ['ionic', 'stuControllers', 'stuServices', 'ngCordova'])
         .state('vehiculo-comentarios', {
           url: '/vehiculos/:placa/comentarios',
           templateUrl: 'templates/vehiculo-comentarios.html',
-          controller: 'VehiculoComentariosCtrl'
+          controller: 'VehiculoComentariosCtrl',
+          cache: false
         })
         .state('vehiculo-denuncias', {
           url: '/vehiculos/:placa/denuncias',
           templateUrl: 'templates/vehiculo-denuncias.html',
-          controller: 'VehiculoDenunciasCtrl'
+          controller: 'VehiculoDenunciasCtrl',
+          cache: false
         })
         .state('vehiculo-denuncia', {
           url: '/vehiculos/:placa/denuncia',

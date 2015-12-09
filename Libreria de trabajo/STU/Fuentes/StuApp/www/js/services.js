@@ -23,13 +23,13 @@ angular.module('stuServices', [])
   };
   
   usuarioService.isLogged = function (){
-    return true;
-    //return $localStorage.get('access_token');
+    //return true;
+    return $localStorage.get('access_token');
   }
   
   usuarioService.getUsuario = function (callback){
-    var token =  'CAAXuui4x6bsBAJl5Ewa8chCHtT6ASC8sN7CDa9ZAQjkB7zMe708ke1X4c3OZBa556wOpSMJJ1jIaR2D2yPch1Hq4QAFPE8GDINETpR4ktfIvKgdLB5CbUo4pbSEZBksQdLSGKA3FIZBFvc8pjdqaaIl2pLydAGmZAZBBfwFJ8pI8nmulawTkSxY5phL5PrROuZAYziE7VualAZDZD';
-    //var token = $localStorage.get('access_token');
+    //var token =  'CAAXuui4x6bsBAJl5Ewa8chCHtT6ASC8sN7CDa9ZAQjkB7zMe708ke1X4c3OZBa556wOpSMJJ1jIaR2D2yPch1Hq4QAFPE8GDINETpR4ktfIvKgdLB5CbUo4pbSEZBksQdLSGKA3FIZBFvc8pjdqaaIl2pLydAGmZAZBBfwFJ8pI8nmulawTkSxY5phL5PrROuZAYziE7VualAZDZD';
+    var token = $localStorage.get('access_token');
     
     $http.get("https://graph.facebook.com/v2.5/me", {params: {access_token: token, fields: "id,name,email,picture,gender", format: "json" }}).then(function(result) {
       var data = {
@@ -141,7 +141,7 @@ angular.module('stuServices', [])
     }
     alert("Enviando espere unos segundos..");
     $http.post("https://stuapp.localtunnel.me/vehiculo/"+placa+"/denuncias", data, {headers: {'Content-Type': 'application/json'}}).then(function(result) {
-      alert("La denuncia ha sido enviada!");
+      //alert("La denuncia ha sido enviada!");
       callback();
     }, function(error) {
         alert("Lo sentimos no se pudo enviar la denuncia :(");

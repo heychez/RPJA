@@ -1,6 +1,11 @@
 <ion-view view-title="Top busquedas">
   <ion-content class="padding">
-    <div class="list card">
+    <div class="list card" ng-hide="infoIsHidden">
+      <div class="item">
+        <p>{{infoText}}</p>
+      </div>
+    </div>
+    <div class="list card" ng-hide="!infoIsHidden">
       <a class="item" href="#/vehiculos/{{vehiculo.placa}}" ng-repeat="vehiculo in vehiculos">
         <div class="row">
           <div class="col">{{vehiculo.placa}}</div>

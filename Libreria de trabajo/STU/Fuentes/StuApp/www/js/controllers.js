@@ -39,12 +39,13 @@ angular.module('stuControllers', [])
   });
 })
 
-.controller('VehiculoComentariosCtrl', function ($scope, $stateParams, $location, Vehiculo) {
+.controller('VehiculoComentariosCtrl', function ($scope, $stateParams, Vehiculo) {
   $scope.placa = $stateParams.placa;
+  $scope.texto = "";
   $scope.infoIsHidden = false;
   $scope.infoText = 'Buscando..';
-  
-  Vehiculo.getVehiculoComentarios($stateParams.placa, function (resp){
+
+  function renderComentarios(resp){
     if (resp.length == 0){
       $scope.infoText = 'Sin comentarios.';
     }else{
@@ -53,13 +54,20 @@ angular.module('stuControllers', [])
       angular.forEach(resp, function (comentario){
         comentario.fechaCreacion = moment(comentario.fechaCreacion).fromNow();
       });
-      $scope.comentarios = resp;
+      $scope.comentarios = resp.reverse();
     }
+  }
+  
+  Vehiculo.getVehiculoComentarios($stateParams.placa, function (resp){
+    renderComentarios(resp);
   });
   
   $scope.comentar = function (placa, texto){
+    //$scope.texto = null;
     Vehiculo.postVehiculoComentario(placa, texto, function (){
-      $location.path('#/vehiculos/'+placa+'/comentarios');
+      Vehiculo.getVehiculoComentarios($stateParams.placa, function (resp){
+        renderComentarios(resp);
+      });
     });
   }
 })
@@ -75,22 +83,29 @@ angular.module('stuControllers', [])
     }else{
       $scope.infoIsHidden = true;
 
-      //moment.locale('es');
       angular.forEach(resp, function (denuncia){
-        denuncia.fechaCreacion = moment(denuncia.fechaCreacion).format("llll");
+        denuncia.fechaCreacion = moment(denuncia.fechaCreacion).format("LLLL");
       });
-      $scope.denuncias = resp;
+      $scope.denuncias = resp.reverse();
     }
   });
 })
 
 .controller('TopBusquedasCtrl', function ($scope, Vehiculo) {
+  $scope.infoIsHidden = false;
+  $scope.infoText = 'Buscando..';
+
   Vehiculo.getTopVehiculosBuscados(function (resp){
-    $scope.vehiculos = resp;
+    if (resp.length == 0){
+      $scope.infoText = 'No hay vehiculos registrados.';
+    }else{
+      $scope.infoIsHidden = true;
+      $scope.vehiculos = resp;
+    }
   });
 })
 
-.controller('VehiculoDenunciaCtrl', function ($scope, $stateParams, $cordovaCamera, $location, Vehiculo) {
+.controller('VehiculoDenunciaCtrl', function ($scope, $stateParams, $cordovaCamera, $ionicHistory, Vehiculo) {
   $scope.placa = $stateParams.placa;
 
   $scope.tomarFoto = function (){
@@ -133,12 +148,12 @@ angular.module('stuControllers', [])
 
   $scope.denunciar = function (placa, titulo, descripcion, imagenUri){
     Vehiculo.postVehiculoDenuncia(placa, titulo, descripcion, imagenUri, function (){
-      $location.path('#/vehiculos/'+placa+'/denuncias');
+      $ionicHistory.goBack();
     });
   }
 })
 
-
+/*
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -163,4 +178,4 @@ angular.module('stuControllers', [])
     enableFriends: true
   };
 });
-
+*/
