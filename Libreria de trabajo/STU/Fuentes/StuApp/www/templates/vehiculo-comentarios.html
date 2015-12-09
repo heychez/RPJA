@@ -9,10 +9,16 @@
         <a href="#/vehiculos/{{placa}}/comentarios" ng-disabled="!texto" class="button button-clear button-balanced" ng-click="comentar(placa, texto)">Aceptar</a>
       </div>
     </div>
+    <div class="list" ng-hide="infoIsHidden">
+      <div class="item">
+        <p>{{infoText}}</p>
+      </div>
+    </div>
     <div class="list">
       <a class="item item-avatar" href="#" ng-repeat="comentario in comentarios">
         <img src="{{comentario.Usuario.imagen}}">
-        <h2>{{comentario.Usuario.nombreCompleto}}</h2>
+        <h2 style="display:inline-block">{{comentario.Usuario.nombreCompleto}}</h2>
+        <p style="display:inline-block;line-height:1.2px;margin-left:5px">{{comentario.fechaCreacion}}</p>
         <p>{{comentario.texto}}</p>
       </a>
     </div>

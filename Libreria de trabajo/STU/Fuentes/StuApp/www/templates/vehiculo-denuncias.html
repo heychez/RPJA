@@ -1,21 +1,26 @@
 <ion-view view-title="Denuncias">
   <ion-content class="padding">
+    <div class="list card" ng-hide="infoIsHidden">
+      <div class="item">
+        <p>{{infoText}}</p>
+      </div>
+    </div>
     <div class="list card" ng-repeat="denuncia in denuncias">
       <div class="item">
         <h2>{{denuncia.titulo}}</h2>
         <p>{{denuncia.fechaCreacion}}</p>
       </div>
       <div class="item item-body">
-        <img class="full-image" src="{{denuncia.imagen}}">
+        <img class="full-image" ng-src="{{denuncia.imagen}}">
         <p>
-          {{denuncia.texto}}
+          {{denuncia.descripcion}}
         </p>
       </div>
     </div>
   </ion-content>
   <div class="bar bar-footer bar-balanced">
     <div class="title">
-      <button class="button button-clear" ui-sref="vehiculo-denuncia">Hacer una denuncia</button>
+      <a class="button button-clear" href="#/vehiculos/{{placa}}/denuncia">Hacer una denuncia</a>
     </div>
   </div>
 </ion-view>

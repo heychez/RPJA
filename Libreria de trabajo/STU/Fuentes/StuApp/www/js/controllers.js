@@ -1,16 +1,19 @@
+moment.locale('es');
+
 angular.module('stuControllers', [])
 
-.controller('HomeCtrl', function($scope, $cordovaOauth, $http, Usuario) {
+.controller('HomeCtrl', function ($scope, $cordovaOauth, $http, Usuario) {
   $scope.usuario = {};
   $scope.fbButtonIsHidden = false;
   $scope.usuarioDataIsHidden = true;
     
   if (Usuario.isLogged()){
-      $scope.fbButtonIsHidden = true;
-      Usuario.getUsuario(function(resp){
-        $scope.usuario = resp;
-        $scope.usuarioDataIsHidden = false;
-      });
+    $scope.fbButtonIsHidden = true;
+
+    Usuario.getUsuario(function(resp){
+      $scope.usuario = resp;
+      $scope.usuarioDataIsHidden = false;
+    });
   }
   
   $scope.loginFb = function() {
@@ -22,81 +25,116 @@ angular.module('stuControllers', [])
         $scope.usuarioDataIsHidden = false;
       });
     }, function(error) {
-      alert(error);
+      alert(JSON.stringify(error));
     });
   }
 })
 
-.controller('BusquedaVehiculoCtrl', function($scope, Vehiculo) {
+.controller('BusquedaVehiculoCtrl', function ($scope, Vehiculo) {
 })
 
-.controller('VehiculoCtrl', function($scope, $stateParams, Vehiculo) {
+.controller('VehiculoCtrl', function ($scope, $stateParams, Vehiculo) {
   Vehiculo.getVehiculo($stateParams.placa, function (resp){
     $scope.vehiculo = resp;
   });
 })
 
-.controller('VehiculoComentariosCtrl', function($scope, $stateParams, Vehiculo) {
+.controller('VehiculoComentariosCtrl', function ($scope, $stateParams, $location, Vehiculo) {
   $scope.placa = $stateParams.placa;
+  $scope.infoIsHidden = false;
+  $scope.infoText = 'Buscando..';
   
   Vehiculo.getVehiculoComentarios($stateParams.placa, function (resp){
-    $scope.comentarios = resp;
+    if (resp.length == 0){
+      $scope.infoText = 'Sin comentarios.';
+    }else{
+      $scope.infoIsHidden = true;
+
+      angular.forEach(resp, function (comentario){
+        comentario.fechaCreacion = moment(comentario.fechaCreacion).fromNow();
+      });
+      $scope.comentarios = resp;
+    }
   });
   
-  $scope.comentar = function(placa, texto){
-    Vehiculo.postVehiculoComentario(placa, texto);
+  $scope.comentar = function (placa, texto){
+    Vehiculo.postVehiculoComentario(placa, texto, function (){
+      $location.path('#/vehiculos/'+placa+'/comentarios');
+    });
   }
 })
 
-.controller('VehiculoDenunciasCtrl', function($scope, $stateParams, Vehiculo) {
-  $scope.denuncias = Vehiculo.getVehiculoDenuncias($stateParams.placa);
+.controller('VehiculoDenunciasCtrl', function ($scope, $stateParams, Vehiculo) {
+  $scope.placa = $stateParams.placa;
+  $scope.infoIsHidden = false;
+  $scope.infoText = 'Buscando..';
+
+  Vehiculo.getVehiculoDenuncias($stateParams.placa, function (resp){
+    if (resp.length == 0){
+      $scope.infoText = 'No hay denuncias registradas.';
+    }else{
+      $scope.infoIsHidden = true;
+
+      //moment.locale('es');
+      angular.forEach(resp, function (denuncia){
+        denuncia.fechaCreacion = moment(denuncia.fechaCreacion).format("llll");
+      });
+      $scope.denuncias = resp;
+    }
+  });
 })
 
-.controller('TopBusquedasCtrl', function($scope, Vehiculo) {
+.controller('TopBusquedasCtrl', function ($scope, Vehiculo) {
   Vehiculo.getTopVehiculosBuscados(function (resp){
     $scope.vehiculos = resp;
   });
 })
 
-.controller('VehiculoDenunciaCtrl', function($scope) {
-  $scope.tomarFoto = function(){
+.controller('VehiculoDenunciaCtrl', function ($scope, $stateParams, $cordovaCamera, $location, Vehiculo) {
+  $scope.placa = $stateParams.placa;
+
+  $scope.tomarFoto = function (){
     var options = {
-      quality: 50,
+      quality: 75,
       destinationType: Camera.DestinationType.DATA_URL,
       sourceType: Camera.PictureSourceType.CAMERA,
-      allowEdit: true,
+      targetWidth: 400,
+      targetHeight: 600,
+      allowEdit: false,
       encodingType: Camera.EncodingType.JPEG,
-      targetWidth: 100,
-      targetHeight: 100,
       popoverOptions: CameraPopoverOptions,
       saveToPhotoAlbum: false,
-      correctOrientation:true
+      correctOrientation:false
     };
 
-    $cordovaCamera.getPicture(options).then(function(imageData) {
+    $cordovaCamera.getPicture(options).then(function (imageData) {
       $scope.imagenUri = "data:image/jpeg;base64," + imageData;
-      alert($scope.imagenUri);
-    }, function(err) {
-      // error
+    }, function(error) {
+      alert(JSON.stringify(error));
     });
-  };
+  }
 
-  $scope.seleccionarImagen = function(){
+  $scope.seleccionarImagen = function (){
     var options = {
+      /*destinationType: Camera.DestinationType.FILE_URI,
+      sourceType: Camera.PictureSourceType.PHOTOLIBRARY,*/
+      quality: 100,
       destinationType: Camera.DestinationType.FILE_URI,
-      sourceType: Camera.PictureSourceType.CAMERA,
+      sourceType: 0,
+      saveToPhotoAlbum: false
     };
 
     $cordovaCamera.getPicture(options).then(function(imageURI) {
       $scope.imagenUri = imageURI;
-      alert($scope.imagenUri);
-    }, function(err) {
-      // error
+    }, function(error) {
+      alert(JSON.stringify(error));
     });
   }
 
-  $scope.denunciar = function(placa, descripcion, imagenUri){
-    Vehiculo.postVehiculoDenuncia(placa, descripcion, imagenUri);
+  $scope.denunciar = function (placa, titulo, descripcion, imagenUri){
+    Vehiculo.postVehiculoDenuncia(placa, titulo, descripcion, imagenUri, function (){
+      $location.path('#/vehiculos/'+placa+'/denuncias');
+    });
   }
 })
 
@@ -125,3 +163,4 @@ angular.module('stuControllers', [])
     enableFriends: true
   };
 });
+
