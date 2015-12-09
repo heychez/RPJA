@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
         type : DataTypes.STRING  
       },
       imagen : {
-        type : DataTypes.STRING  
+        type : DataTypes.TEXT
       }
     }, 
     {

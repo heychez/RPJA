@@ -6,7 +6,7 @@ var cors       = require("cors");
 var morgan     = require("morgan");
 
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.static(__dirname+"/static"));

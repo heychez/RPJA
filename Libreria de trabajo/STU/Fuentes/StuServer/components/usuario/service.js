@@ -16,18 +16,14 @@ service.buscarUsuarioById = function  (idUsuario,callback) {
 		var error = new Error();
 		error.message = "Usuario no encontrado";
 		error.status  = 404;
-		throw error;
-		
+		return callback(error);
 	})
-	.catch(Sequelize.ConnectionError,function  (error) {
+	.catch(function  (error) {
 		error = new Error();
 		error.message = "Error en la conexion";
 		error.status  = 500;
 		return callback(error)
 	})
-	.catch(function  (error) {
-		return callback(error)
-	});
 }
 
 
