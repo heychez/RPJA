@@ -118,7 +118,7 @@ angular.module('stuControllers', [])
       allowEdit: false,
       encodingType: Camera.EncodingType.JPEG,
       popoverOptions: CameraPopoverOptions,
-      saveToPhotoAlbum: false,
+      saveToPhotoAlbum: true,
       correctOrientation:false
     };
 
@@ -133,10 +133,8 @@ angular.module('stuControllers', [])
     var options = {
       /*destinationType: Camera.DestinationType.FILE_URI,
       sourceType: Camera.PictureSourceType.PHOTOLIBRARY,*/
-      quality: 100,
       destinationType: Camera.DestinationType.FILE_URI,
-      sourceType: 0,
-      saveToPhotoAlbum: false
+      sourceType: 0
     };
 
     $cordovaCamera.getPicture(options).then(function(imageURI) {
