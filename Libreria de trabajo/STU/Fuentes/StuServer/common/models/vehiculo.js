@@ -95,8 +95,8 @@ module.exports = function(sequelize, DataTypes) {
       },
       classMethods: {
         associate: function(models) {
-          Vehiculo.hasMany(models.Comentario,{foreignKey:"placa"});
-          Vehiculo.hasMany(models.Denuncia,{foreignKey:"placa"});
+          Vehiculo.hasMany(models.Comentario,{foreignKey:"placa",as: {plural:'comentarios',singular:'comentario'}});
+          Vehiculo.hasMany(models.Denuncia,{foreignKey:"placa",as: {plural:'denuncias',singular:'denuncia'}});
         }
       },
       instanceMethods:{
